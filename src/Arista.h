@@ -3,7 +3,9 @@
 #define ARISTA_H
 
 #include <iostream>
-#include <vector> 
+#include <vector>
+#include "Vectorizar.h"
+
 template <class T>
 class Nodo{
 private: 
@@ -11,7 +13,11 @@ private:
     std::vector<T> carac;
     std::vector<Arista<T>*>aristas; 
 public:
-    Nodo(std::string filename, std::vector<T> c) : name{filename}, carac{c} {}
+    Nodo(std::string filename) : name{filename} {
+        carac = Vectorizar<float>(filename, 128, 128);
+    }
+
+
     int get_sizevec(){
         return carac.size()
     }

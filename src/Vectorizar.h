@@ -1,34 +1,24 @@
+#pragma once
 #include <iostream>
+#include <iterator>
 #include <vector>
-
 #include "CImg/CImg.h"
 
 using namespace cimg_library;
 using namespace std;
 
-vector<float> Vectorizar(CImg<float> & img)
+template <class T>
+vector<T> Vectorizar(string filename, int width, int height, int cuts=3)
 {
-    vector<float> R;
-    cimg_forXY(img,x,y) 
+    vector<T> R;
+    CImg<T> img(filename.c_str());
+    img.resize(width, height);
+    CImg<T> img2 = img.haar(false, cuts);
+    CImg<T> img3 = img2.crop(0, 0, 16, 16);
+    cimg_forXY(img3, x, y) 
     { 
-        R.push_back( (img(x,y,0) + img(x,y,1) +  img(x,y,2))/3);
+        R.push_back((img(x, y, 0) + img(x, y, 1) +  img(x, y, 2)) / 3);
     }
     return R;
-}
-
-
-int main()
-{
-   CImg<float> A("cara.jpg");
-  // CImg<float> B = A.haar(false,3);
-  // CImg<float> c = B.crop(0,0,27,27);
-
- //  auto vc = Vectorizar(c);
-
-   A.display();
- //  B.display();
- //  c.display();
-
-   return 1;
 }
 
