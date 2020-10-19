@@ -1,0 +1,1 @@
+find faces/ -type f -name "*.jpg" > db.txt
