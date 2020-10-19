@@ -1,14 +1,13 @@
 
 #ifndef FIBONACCI_HEAP_H
 #define FIBONACCI_HEAP_H
-#define MAX_INT 10000000
+#define MAX_DOUBLE 99999999999
 #include <string>
 #include "NodoB.h"
 #include <math.h>
 #include <algorithm>
 #include <fstream>
 using namespace std;
-
 
 
 template<class T>
@@ -25,7 +24,7 @@ public:
   {
       m_heap.insert(minElem, key);
       if(key->m_key < min){
-        min = key->m_key;
+        min = key->m_key; 
         minElem--;
       }
     
@@ -155,16 +154,11 @@ public:
       auto newNodo  = new NodoB<T>(element);
       Insert(newNodo);
     }
-    f.close();
-  }
-
-
-private:
-  
+    f.close();nullptr
   int m_size;
   list<NodoB<T> *> m_heap;
   typename list<NodoB<T> *>::iterator minElem = m_heap.end();
-  float min = MAX_INT;
+  T min = new T(MAX_DOUBLE);
 };
 
 #endif // FIBONACCI_HEAP_H
