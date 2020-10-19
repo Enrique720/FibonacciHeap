@@ -46,7 +46,7 @@ public:
     m_heap.remove(*minElem);
     delete *minElem;
     Compactar();
-    min = MAX_INT;
+    min = MAX_DOUBLE;
     for(auto it = m_heap.begin(); it != m_heap.end() ;it++){
       if( (*it)->m_key < min){
         this->minElem = it;

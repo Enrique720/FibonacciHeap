@@ -39,7 +39,8 @@ public:
 class Arista{
 private: 
     Nodo*  nodes[2];
-    double value;    
+    double value; 
+    friend class Graph;   
 public:
     Arista(Nodo* from, Nodo* to, int dist_type, double p = 0){
         nodes[0] = from;
@@ -120,11 +121,22 @@ public:
     void createEdges(int dist_type){        
         map <Nodo*, bool> visited;
         for(int i=0; i <nodos.size() ; i++){
-            for(int j=0; j < nodos.size(); j++){                
+            for(int j=0; j < nodos.size(); j++){    
+                if(i == j || visited[nodos[j]]) continue;            
                 auto newEdge = new Arista(nodos[i], nodos[j],dist_type);
                 nodos[i]->push_edge(newEdge);
             }
             visited[nodos[i]] = true;
+        }
+    }
+
+    void show() {
+        for(auto it:this->nodos){
+            cout << "Nodo: " << it->name << " \n Edges:" ;
+             for(auto it2:it->aristas){
+                 cout << it2->value << " "; 
+             }
+             cout << endl;
         }
     }
 };
