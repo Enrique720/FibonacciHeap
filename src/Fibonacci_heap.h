@@ -154,11 +154,13 @@ public:
       auto newNodo  = new NodoB<T>(element);
       Insert(newNodo);
     }
-    f.close();nullptr
+    f.close();
+  }
+  
   int m_size;
   list<NodoB<T> *> m_heap;
   typename list<NodoB<T> *>::iterator minElem = m_heap.end();
   T min = new T(MAX_DOUBLE);
 };
 
-#endif // FIBONACCI_HEAP_H
+#endif 
