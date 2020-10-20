@@ -23,18 +23,13 @@ public:
   
   void Insert (NodoB<T> * key)
   {
-      if (m_heap.empty()) {
-        m_heap.push_back(key);
-        minElem = m_heap.begin();
-      } else {
 
-        m_heap.insert(minElem, key);
-        if(key->m_key < min){
-          min = key->m_key; 
-          minElem--;
-        }
-      }
-   
+    m_heap.insert(minElem, key);
+    if(key->m_key->get_value() < min){
+      min = key->m_key->get_value(); 
+      minElem--;
+    }
+         
     this->m_size++;
   }
   
@@ -53,11 +48,11 @@ public:
     m_heap.remove(*minElem);
     delete *minElem;
     Compactar();
-    min = new Arista((double) MAX_DOUBLE);
+    min = (double)MAX_DOUBLE;
     for(auto it = m_heap.begin(); it != m_heap.end() ;it++){
-      if( (*it)->m_key < min){
+      if( (*it)->m_key->get_value() < min){
         this->minElem = it;
-        min = (*minElem)->m_key;
+        min = (*minElem)->m_key->get_value();
       }
     }
 
@@ -97,10 +92,10 @@ public:
       swap(temp->m_pPadre->m_key, temp->key);
       temp = temp->m_pPadre;
     }      
-    if(Value < min){
-      min = Value;
+    if(Value->get_value() < min){
+      min = Value->get_value();
       for(auto it:m_heap){
-        if(it->m_key == min){
+        if(it->m_key->get_value() == min){
           minElem = it;
           break;
         }
@@ -115,7 +110,7 @@ public:
 
   NodoB<T> * Unir (NodoB<T> * p1, NodoB<T> * p2)
   {
-    if(p1->m_key > p2->m_key){
+    if(p1->m_key->get_value() > p2->m_key->get_value()){
       p1->m_pPadre = p2;
       p2->m_Hijos.push_front(p1);
       p2->m_Grado++;
@@ -168,7 +163,7 @@ public:
   list<NodoB<T> *> m_heap;
   typename list<NodoB<T> *>::iterator minElem = m_heap.end();
 
-  T min = new Arista((double) MAX_DOUBLE);
+  double min =  (double)MAX_DOUBLE;
 };
 
 #endif 

@@ -7,18 +7,14 @@ template <typename T>
 void kruskal(FibonacciHeap<T>& FB, Graph& graph)
 {
   map <Nodo*, bool> visited;
-  cout << "Graph.size(): " << graph.size() << endl;
-  cout << "FB.size(): " << FB.m_size << endl;
+  //cout << "Graph.size(): " << graph.size() << endl;
+  //cout << "FB.size(): " << FB.m_size << endl;
 
   int nodos = graph.size()-1;
-  cout << "Estoy aqui 1" << endl;
   vector <Arista *> aristas;
   while(nodos){
-    cout << "Estoy aqui 2" << endl;
     auto min = FB.Get_Min();
-    cout << "Estoy aqui 3" << endl;
     FB.ExtractMin();
-    cout << "Estoy aqui 4" << endl;
     
     if(visited[min->getTo()] && visited[min->getFrom()]){
       continue;

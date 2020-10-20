@@ -30,6 +30,10 @@ public:
         carac = Vectorizar(filename, 128, 128);
     }   
 
+    string get_name(){
+        return name;
+    }
+
     int get_sizevec(){
         return carac.size();
     }
@@ -71,6 +75,8 @@ public:
         value = val;
     }
 
+
+
     Nodo * getFrom(){
         return nodes[0];
     }
@@ -107,9 +113,7 @@ public:
     
         return pow(distance, 1/p);
     }
-    
-
-    
+  
     bool operator <(double other){
         return this->value < other;
     } 
@@ -148,9 +152,9 @@ public:
 
     void show() {
         for(auto it:this->nodos){
-            cout << "Nodo: " << it->name << " \n Edges:" ;
+            cout << "Nodo: " << it->name << " \n Edges: \n" ;
              for(auto it2:it->aristas){
-                 cout << it2->value << " "; 
+                 cout << it2->value << " " << it2->getTo()->get_name() <<endl; 
              }
              cout << endl;
         }
