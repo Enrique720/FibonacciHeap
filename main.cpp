@@ -6,32 +6,66 @@ using namespace std;
 template <typename T>
 void kruskal(FibonacciHeap<T>& FB, Graph& graph)
 {
-  //map <Arista*, bool> visited;
+  map <Nodo*, bool> visited;
+  cout << "Graph.size(): " << graph.size() << endl;
+  cout << "FB.size(): " << FB.m_size << endl;
+
+  int nodos = graph.size()-1;
+  cout << "Estoy aqui 1" << endl;
+  vector <Arista *> aristas;
+  while(nodos){
+    cout << "Estoy aqui 2" << endl;
+    auto min = FB.Get_Min();
+    cout << "Estoy aqui 3" << endl;
+    FB.ExtractMin();
+    cout << "Estoy aqui 4" << endl;
+    
+    if(visited[min->getTo()] && visited[min->getFrom()]){
+      continue;
+    }
+    else{
+      aristas.push_back(min);
+      nodos--;
+      visited[min->getTo()] = true;
+      visited[min->getFrom()] = true;
+    }
+  } 
+  cout << "Aristas Kruskal: " << endl;
+  for(auto it:aristas){
+    cout << it->get_value() << " ";
+  }
+  cout << endl;
 }
 
 template <typename T>
 void insertEdges(FibonacciHeap<T> & FB, Graph & graph){
-  for(auto it:graph.nodos){
-    for(auto it2: it->aristas){
+  for(auto it:graph.getNodos()){
+    for(auto it2: it->get_aristas()){
       auto newNodeB = new NodoB<Arista*>(it2);
-      FB.insert(newNodeB);
+      FB.Insert(newNodeB);
     }
   }
 }
 
-void prueba(){
-  Graph grafo;
-  auto nodo1 = new Nodo("faces/faces94/malestaff/obeidn/obeidn.12.jpg");
-  auto nodo2 = new Nodo("faces/faces94/malestaff/obeidn/obeidn.8.jpg");
-  auto nodo3 = new Nodo("faces/faces94/malestaff/obeidn/obeidn.15.jpg");
-  grafo.insert(nodo1);
-  grafo.insert(nodo2);
-  grafo.insert(nodo3);
-  grafo.createEdges(0);
-  grafo.show();
+void prueba(string data_path, int dist_type){
+  Graph myGraph;
+  FibonacciHeap<Arista*> myFH;
+
+  fstream file (data_path, ios::in);
+  string element;
+  while (file >> element)
+    myGraph.insert(element);
+
+  file.close();
+  myGraph.createEdges(dist_type);
+  myGraph.show();
+  insertEdges(myFH, myGraph);
+  kruskal(myFH, myGraph);
+  
+  
 }
 
 
 int main (){
-  prueba();
+  prueba("db.txt", 0);
 }

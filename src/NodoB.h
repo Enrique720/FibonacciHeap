@@ -16,7 +16,7 @@ class NodoB
 public:
 
  
-  NodoB (T m_key): m_Grado(0), m_key(m_key) , m_pPadre(nullptr) {};
+  NodoB (T m_key_): m_Grado(0), m_key(m_key_) , m_pPadre(nullptr) {};
 
 
   void show(){

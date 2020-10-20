@@ -1,9 +1,10 @@
 
 #ifndef FIBONACCI_HEAP_H
 #define FIBONACCI_HEAP_H
-#define MAX_DOUBLE 99999999999
+#define MAX_DOUBLE 99999999
 #include <string>
 #include "NodoB.h"
+#include "Arista.h"
 #include <math.h>
 #include <algorithm>
 #include <fstream>
@@ -22,12 +23,18 @@ public:
   
   void Insert (NodoB<T> * key)
   {
-      m_heap.insert(minElem, key);
-      if(key->m_key < min){
-        min = key->m_key; 
-        minElem--;
+      if (m_heap.empty()) {
+        m_heap.push_back(key);
+        minElem = m_heap.begin();
+      } else {
+
+        m_heap.insert(minElem, key);
+        if(key->m_key < min){
+          min = key->m_key; 
+          minElem--;
+        }
       }
-    
+   
     this->m_size++;
   }
   
@@ -46,7 +53,7 @@ public:
     m_heap.remove(*minElem);
     delete *minElem;
     Compactar();
-    min = MAX_DOUBLE;
+    min = new Arista((double) MAX_DOUBLE);
     for(auto it = m_heap.begin(); it != m_heap.end() ;it++){
       if( (*it)->m_key < min){
         this->minElem = it;
@@ -160,7 +167,8 @@ public:
   int m_size;
   list<NodoB<T> *> m_heap;
   typename list<NodoB<T> *>::iterator minElem = m_heap.end();
-  T min = new T(MAX_DOUBLE);
+
+  T min = new Arista((double) MAX_DOUBLE);
 };
 
 #endif 

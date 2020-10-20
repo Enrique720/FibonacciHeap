@@ -23,6 +23,9 @@ private:
     friend class Graph;
 
 public:
+    vector<Arista*> get_aristas(){
+        return aristas;
+    }
     Nodo(string filename) : name{filename} {
         carac = Vectorizar(filename, 128, 128);
     }   
@@ -38,11 +41,15 @@ public:
 
 class Arista{
 private: 
-    Nodo*  nodes[2];
-    double value; 
+    Nodo*  nodes[2];  
+    double value;   
     friend class Graph;   
 public:
-    Arista(Nodo* from, Nodo* to, int dist_type, double p = 0){
+    double get_value(){
+        return value;
+    }
+
+    Arista(Nodo* from, Nodo* to, int dist_type, double p = 1){
         nodes[0] = from;
         nodes[1] = to;
         switch (dist_type) {
@@ -62,6 +69,14 @@ public:
         nodes[0] = nullptr;
         nodes[1] = nullptr;
         value = val;
+    }
+
+    Nodo * getFrom(){
+        return nodes[0];
+    }
+
+    Nodo * getTo(){
+        return nodes[1];
     }
 
     double manhattan(Nodo* from, Nodo* to) {
@@ -94,10 +109,6 @@ public:
     }
     
 
-    Arista& operator =(Arista* other){
-        this->value = other->value;
-        return *this;
-    }
     
     bool operator <(double other){
         return this->value < other;
@@ -114,8 +125,13 @@ private:
     vector<Nodo*> nodos; 
 
 public:
-    void insert( Nodo* node ){
-        nodos.push_back(node);
+    void insert( string filename ){
+        Nodo* newNode = new Nodo(filename);
+        nodos.push_back(newNode);
+    }
+    
+    vector<Nodo*> getNodos() {
+        return nodos;
     }
 
     void createEdges(int dist_type){        
@@ -138,6 +154,9 @@ public:
              }
              cout << endl;
         }
+    }
+    int size(){
+        return this->nodos.size();
     }
 };
 
