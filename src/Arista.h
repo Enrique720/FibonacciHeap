@@ -17,6 +17,7 @@ class Graph;
 class Nodo{
 private: 
     string name;
+    int vz_num;
     vector <double> carac;
     vector<Arista*> aristas; 
     friend class Arista;
@@ -26,7 +27,7 @@ public:
     vector<Arista*> get_aristas(){
         return aristas;
     }
-    Nodo(string filename) : name{filename} {
+    Nodo(string filename) : name{filename}, vz_num{0}{
         carac = Vectorizar(filename, 128, 128);
     }   
 
@@ -41,6 +42,31 @@ public:
         aristas.push_back(edge);
     }
 
+    /* void show(Nodo* m_pPadre){
+        // cout << "key: " <<m_key << endl;
+        cout << "n" << m_pPadre->vz_num << " -- " << "n" << this->vz_num  << " ;" << endl;
+        cout << "n" << this->vz_num << " [label=\"" << this->name << "\""  << this->m_key << "\"] ;" << endl;
+        if(!m_Hijos.empty()){
+            for(auto it:m_Hijos){
+                cont++;
+                it->vz_num= cont;
+                it->show();
+            }
+        }
+    }
+
+    void showImg(){
+        this->vz_num = cont;
+        cout << "n" << this->vz_num <<" ;\n";
+        cout << "n" << this->vz_num << " [image=\"\" , label=\"" << this->m_key << "\"] ;" << endl;
+        if(!m_Hijos.empty()){
+            for(auto it:m_Hijos){
+                cont++;
+                it->vz_num=cont;
+                it->show();
+            }
+        }
+    }*/
 };
 
 class Arista{
@@ -69,14 +95,6 @@ public:
         }
     }
     
-    Arista(double val){        
-        nodes[0] = nullptr;
-        nodes[1] = nullptr;
-        value = val;
-    }
-
-
-
     Nodo * getFrom(){
         return nodes[0];
     }
@@ -90,7 +108,6 @@ public:
         for(int k = 0; k < from->get_sizevec(); k++){
             distance += abs(from->carac[k] -  to->carac[k]);
         }
-    
         return distance;
     }
 
@@ -140,8 +157,8 @@ public:
 
     void createEdges(int dist_type){        
         map <Nodo*, bool> visited;
-        for(int i=0; i <nodos.size() ; i++){
-            for(int j=0; j < nodos.size(); j++){    
+        for(size_t i=0; i <nodos.size() ; i++){
+            for(size_t j=0; j < nodos.size(); j++){    
                 if(i == j || visited[nodos[j]]) continue;            
                 auto newEdge = new Arista(nodos[i], nodos[j],dist_type);
                 nodos[i]->push_edge(newEdge);
@@ -159,9 +176,47 @@ public:
              cout << endl;
         }
     }
+
+    void PrintGraph(vector<Arista*> aristas){
+        cont = 0; 
+        int subgraphs = 0;
+        map<Nodo*,string> id;
+        cout <<  "Graph \"\"" << endl;
+        cout << "{\n label= \" Graph \" " << endl;
+        cout << "subgraph BN" << subgraphs << " \n{ \n";
+        cout << "label= " << "subgraph" << subgraphs << endl;
+            
+        for(auto it:nodos){
+            it->vz_num = cont;
+            cout << "n" << it->vz_num << " ;\n";
+            cout << "n" << it->vz_num << " [image=\"" << it->name  <<  "\" , label=\"\"];" << endl;
+            // imgnode[image="apple-touch-icon.png", label=""];
+            id[it] = "n" + to_string(it->vz_num);
+            cont++;
+        }
+        for(auto it:aristas){
+            cout << id[it->getFrom()] << " -- " << id[it->getTo()] <<" [label = \""<<it->get_value() <<"\"]" <<";" << endl;
+        }
+
+        cout << "} \n";
+        subgraphs++;
+    
+        cout << "}\n";
+    }
+
     int size(){
         return this->nodos.size();
     }
+
+    void setEdges(vector <Arista*> aristas){
+        for(auto it:nodos){
+            it->aristas.clear();
+        }
+        for(auto it:aristas){
+            it->getFrom()->aristas.push_back(it);
+        }
+    }
+
 };
 
 #endif

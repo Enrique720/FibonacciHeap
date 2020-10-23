@@ -46,7 +46,7 @@ public:
     }
 
     m_heap.remove(*minElem);
-    delete *minElem;
+   // delete *minElem;
     Compactar();
     min = (double)MAX_DOUBLE;
     for(auto it = m_heap.begin(); it != m_heap.end() ;it++){

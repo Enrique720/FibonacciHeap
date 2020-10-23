@@ -4,7 +4,7 @@
 using namespace std;
 
 template <typename T>
-void kruskal(FibonacciHeap<T>& FB, Graph& graph)
+vector<Arista*> kruskal(FibonacciHeap<T>& FB, Graph& graph)
 {
   map <Nodo*, bool> visited;
   //cout << "Graph.size(): " << graph.size() << endl;
@@ -26,11 +26,13 @@ void kruskal(FibonacciHeap<T>& FB, Graph& graph)
       visited[min->getFrom()] = true;
     }
   } 
-  cout << "Aristas Kruskal: " << endl;
+  /*cout << "Aristas Kruskal: " << endl;
   for(auto it:aristas){
     cout << it->get_value() << " ";
   }
-  cout << endl;
+  cout << endl;*/
+  graph.setEdges(aristas);
+  return aristas;
 }
 
 template <typename T>
@@ -54,13 +56,15 @@ void prueba(string data_path, int dist_type){
 
   file.close();
   myGraph.createEdges(dist_type);
-  myGraph.show();
+  //myGraph.show();
   insertEdges(myFH, myGraph);
-  kruskal(myFH, myGraph);
-  
-  
+  auto vec = kruskal(myFH, myGraph);
+  //cout << "------------------------" << endl;
+  //cout << "------------------------" << endl;
+  //cout << "------------------------" << endl;
+  //myGraph.show();
+  //myGraph.PrintGraph(vec);
 }
-
 
 int main (){
   prueba("db.txt", 0);
