@@ -18,9 +18,6 @@ public:
 
   FibonacciHeap (): m_size(0) {};
   
-//  virtual ~FibonacciHeap ();
-
-  
   void Insert (NodoB<T> * key)
   {
 
@@ -39,7 +36,7 @@ public:
   }
 
   void ExtractMin ()
-  {
+  {    
     for(auto it:(*minElem)->m_Hijos){
       it->m_pPadre = nullptr;
       m_heap.push_back(it);
@@ -47,7 +44,9 @@ public:
 
     m_heap.remove(*minElem);
    // delete *minElem;
-    Compactar();
+    this->m_size--;
+
+    Compactar();      
     min = (double)MAX_DOUBLE;
     for(auto it = m_heap.begin(); it != m_heap.end() ;it++){
       if( (*it)->m_key->get_value() < min){
@@ -125,12 +124,21 @@ public:
 
   }
 
-  
+  int size(){
+    return this->m_size;
+  }
+
   void Compactar ()
-  {   
-    vector<NodoB<T>*> tempVec(log2(m_size)+1 ,nullptr);
-    for(auto it = m_heap.begin(); it != m_heap.end(); it++){ 
+  {    
+    if(m_size<=2){
+      return;
+    }
+    //ceil
+    vector<NodoB<T>*> tempVec(ceil(log2(m_size))+1 ,nullptr);
+    //cout <<"log " <<log2(m_size)+1<<endl;
+    for(auto it = m_heap.begin(); it != m_heap.end(); it++){       
        int grado = (*it)->m_Grado;
+       //cout <<"grado " <<grado<<endl;
         if(!tempVec[grado])
           tempVec[grado] = (*it);
         else{
@@ -144,7 +152,7 @@ public:
       if((it)){
         this->m_heap.push_back(it);
       }
-    }
+    }    
   }
 
   void ReadFromFile() {

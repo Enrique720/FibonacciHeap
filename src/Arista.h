@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector> 
 #include <map>
+#include <unordered_map>
 #include <math.h>
 #include "Vectorizar.h"
 
@@ -16,6 +17,7 @@ class Graph;
 
 class Nodo{
 private: 
+
     string name;
     int vz_num;
     vector <double> carac;
@@ -42,31 +44,6 @@ public:
         aristas.push_back(edge);
     }
 
-    /* void show(Nodo* m_pPadre){
-        // cout << "key: " <<m_key << endl;
-        cout << "n" << m_pPadre->vz_num << " -- " << "n" << this->vz_num  << " ;" << endl;
-        cout << "n" << this->vz_num << " [label=\"" << this->name << "\""  << this->m_key << "\"] ;" << endl;
-        if(!m_Hijos.empty()){
-            for(auto it:m_Hijos){
-                cont++;
-                it->vz_num= cont;
-                it->show();
-            }
-        }
-    }
-
-    void showImg(){
-        this->vz_num = cont;
-        cout << "n" << this->vz_num <<" ;\n";
-        cout << "n" << this->vz_num << " [image=\"\" , label=\"" << this->m_key << "\"] ;" << endl;
-        if(!m_Hijos.empty()){
-            for(auto it:m_Hijos){
-                cont++;
-                it->vz_num=cont;
-                it->show();
-            }
-        }
-    }*/
 };
 
 class Arista{
@@ -182,7 +159,9 @@ public:
         int subgraphs = 0;
         map<Nodo*,string> id;
         cout <<  "Graph \"\"" << endl;
+        
         cout << "{\n label= \" Graph \" " << endl;
+        cout << "size=\"7,10\" \n page=\"8.5,11\" \n center=\"\" \n ";
         cout << "subgraph BN" << subgraphs << " \n{ \n";
         cout << "label= " << "subgraph" << subgraphs << endl;
             
@@ -216,7 +195,28 @@ public:
             it->getFrom()->aristas.push_back(it);
         }
     }
-
 };
+
+class DisjointSet { //to represent disjoint set
+   unordered_map <Nodo*, Nodo*> parent;
+   public:
+   void makeSet(vector<Nodo*> wholeset){
+   //perform makeset operation
+      for (auto i : wholeset) // create n disjoint sets
+      //(one for each item)
+         parent[i] = i;
+   }
+   Nodo* Find(Nodo* l) { // Find the root of the set in which element l belongs
+      if (parent[l] == l) // if l is root
+         return l;
+      return Find(parent[l]); // recurs for parent till we find root
+   }
+   void Union(Nodo* m, Nodo* n) { // perform Union of two subsets m and n  
+      auto x = Find(m);
+      auto y = Find(n);
+      parent[x] = y;
+   }
+};
+
 
 #endif
