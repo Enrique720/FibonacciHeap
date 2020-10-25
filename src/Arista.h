@@ -56,7 +56,7 @@ public:
         return value;
     }
 
-    Arista(Nodo* from, Nodo* to, int dist_type, double p = 1){
+    Arista(Nodo* from, Nodo* to, int dist_type, double p = 3){
         nodes[0] = from;
         nodes[1] = to;
         switch (dist_type) {
@@ -102,7 +102,7 @@ public:
         double distance = 0;
         
         for(int k = 0; k < from->get_sizevec(); k++){
-            distance += pow(from->carac[k] -  to->carac[k], p);
+            distance += abs(pow(from->carac[k] -  to->carac[k], p));
         }
     
         return pow(distance, 1/p);
@@ -161,7 +161,7 @@ public:
         cout <<  "Graph \"\"" << endl;
         
         cout << "{\n label= \" Graph \" " << endl;
-        cout << "size=\"7,10\" \n page=\"8.5,11\" \n center=\"\" \n ";
+        cout << " layout=neato \n size=\"10\" \n page=\"8.5,11\" \n center=\"\" \n ";
         cout << "subgraph BN" << subgraphs << " \n{ \n";
         cout << "label= " << "subgraph" << subgraphs << endl;
             
@@ -197,21 +197,19 @@ public:
     }
 };
 
-class DisjointSet { //to represent disjoint set
+class DisjointSet { 
    unordered_map <Nodo*, Nodo*> parent;
    public:
    void makeSet(vector<Nodo*> wholeset){
-   //perform makeset operation
-      for (auto i : wholeset) // create n disjoint sets
-      //(one for each item)
-         parent[i] = i;
+      for (auto i : wholeset) 
+        parent[i] = i;
    }
-   Nodo* Find(Nodo* l) { // Find the root of the set in which element l belongs
-      if (parent[l] == l) // if l is root
+   Nodo* Find(Nodo* l) { 
+      if (parent[l] == l) 
          return l;
-      return Find(parent[l]); // recurs for parent till we find root
+      return Find(parent[l]); 
    }
-   void Union(Nodo* m, Nodo* n) { // perform Union of two subsets m and n  
+   void Union(Nodo* m, Nodo* n){ 
       auto x = Find(m);
       auto y = Find(n);
       parent[x] = y;

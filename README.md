@@ -1,8 +1,13 @@
-# FibonacciHeap
+# Agrupamiento de rostros por similitud
+
+# Informe
+Fibonacci_Heap.pdf
 
 ## Integrantes
 Enrique Sobrados 
+
 Jorge Mayna 
+
 Roosevelt Ubaldo Chavez
 
 ## Evidence

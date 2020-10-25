@@ -2,6 +2,7 @@
 #include "src/Fibonacci_heap.h"
 #include "src/Arista.h"
 #include <unordered_map>
+#include <time.h>
 using namespace std;
 
 template <typename T>
@@ -12,8 +13,7 @@ vector<Arista*> kruskal(FibonacciHeap<T>& FB, Graph& graph)
   int nodos = graph.size()-1;
   vector <Arista *> aristas;
   int cont = 0;
-  int n = FB.size();
-  while(nodos){
+  while(nodos){  // O(n^2(n+lgm)) = n^2 + nlgn
     auto min = FB.Get_Min();
     FB.ExtractMin();
     auto dsTo = disset.Find(min->getTo());
@@ -43,8 +43,6 @@ void insertEdges(FibonacciHeap<T> & FB, Graph & graph){
 }
 
 void prueba(string data_path, int dist_type){
-
-  
   Graph myGraph;
   FibonacciHeap<Arista*> myFH;
 
@@ -61,14 +59,20 @@ void prueba(string data_path, int dist_type){
   insertEdges(myFH, myGraph);
   auto vec = kruskal(myFH, myGraph);
 
-  int k = 0; 
+  int k = 21; 
   for(int i = 0; i < k ; i++){
     vec.pop_back();
   }
-
-  myGraph.PrintGraph(vec);
+  //myGraph.PrintGraph(vec);
 }
 
 int main (){
-  prueba("db.txt", 0);
+  unsigned t0, t1;
+  t0=clock();
+  prueba("db.txt", 2);
+  t1 = clock();
+  double time = (double(t1-t0)/CLOCKS_PER_SEC);
+  
+  
+  cout << "Execution Time: " << time << endl;
 }

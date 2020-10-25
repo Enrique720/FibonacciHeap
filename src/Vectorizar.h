@@ -7,7 +7,7 @@
 using namespace cimg_library;
 using namespace std;
 
-vector<double> Vectorizar(string filename, int width, int height, int cuts=3)
+vector<double> Vectorizar(string filename, int width, int height, int cuts=4)
 {
     vector<double> R;
     CImg<double> img(filename.c_str());
